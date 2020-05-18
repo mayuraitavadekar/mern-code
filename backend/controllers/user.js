@@ -1,84 +1,103 @@
-// calling model
 const User = require("../models/user");
-const { validationResult } = require("express-validator");
-const jwt = require("jsonwebtoken");
-const expressjwt = require("express-jwt");
-const jwt_decode = require("jwt-decode");
+const Order = require("../models/order");
 
-exports.signup = (req, res) => {
-  let errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    // errors are present
-    return res.status(422).json({
-      error: errors.array()[0].msg,
+exports.getUserById = (req, res, next, id) => {
+  User.findById(id).exec((err, user) => {
+    if (err || !user) {
+      return res.status(404).json({
+        error: "user not found in DB",
+      });
+    }
+
+    // user found
+    req.profile = user; // user added in profile properties
+    next();
+  });
+};
+
+//-----------------------------------------------------------------------------
+
+exports.getUser = (req, res) => {
+  req.profile.salt = undefined;
+  req.profile.encry_password = undefined;
+  return res.json(req.profile);
+};
+
+exports.updateUser = (req, res) => {
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    { new: true, useFindAndModify: false },
+    (err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: "error in update user.",
+        });
+      }
+
+      user.salt = undefined;
+      user.encry_password = undefined;
+
+      return res.json(user);
+    }
+  );
+};
+
+exports.getUserPurchaseList = (req, res) => {
+  Order.find({ user: req.profile._id })
+    .populate("user", "_id name email purchases")
+    .exec((err, orders) => {
+      if (err) {
+        return res.status(400).json({
+          error: "no orders of this user in account",
+        });
+      }
+      return res.json(orders);
     });
-  }
+};
 
-  // errors is empty; can signup
-  let user = new User(req.body);
-  user.save((err, user) => {
+exports.getUserCourses = (req, res) => {
+  return res.json(req.profile.purchases);
+};
+
+exports.deleteAccount = (req, res) => {
+  User.findByIdAndDelete(req.profile._id).exec((err, user) => {
     if (err) {
       return res.status(400).json({
-        error: "not able to save in DB",
+        error: "error in deleting account",
       });
     }
-    res.json({
-      name: user.name,
-      lastname: user.lastname,
-      id: user._id,
-      email: user.email,
-    });
-  });
-};
-
-exports.signin = (req, res) => {
-  let errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    // errors are present in signin data
-    return res.status(422).json({
-      error: errors.array()[0].msg,
-    });
-  }
-
-  // validation of email and password is successfull
-  const { email, password } = req.body;
-
-  User.findOne({ email }, (err, user) => {
-    if (err || !user) {
-      res.status(404).json({
-        error: "email is not available in DB",
-      });
-    }
-
-    // email is found!
-    if (!user.authenticate(password)) {
-      res.status(401).json({
-        error: "password doesn't match",
-      });
-    }
-
-    // email and password matched. // sign in
-    // create token
-    let token = jwt.sign({ _id: user._id }, process.env.SECRET);
-    // put token into user cookie
-    res.cookie("token", token, { expire: new Date() + 60 * 60 });
-
-    const { _id, name, email, role } = user; // destrucuring
-
     return res.json({
-      token,
-      user: { _id, name, email, role },
-      cookiesetted: req.cookies["token"],
-      //decodedcookietoken: jwt_decode(req.cookies["token"]), run for every new token
+      message: "your account is delete successfully",
+      accountData: user,
     });
   });
 };
 
-exports.signout = (req, res) => {
-  // simply clear the cookies
-  res.clearCookie("token");
-  res.json({
-    message: "user signout successfully",
-  });
+// middleware
+exports.pushOrderInPurchaseList = (req, res, next) => {
+  // once user purchase the course we need to push it into purchases in user model
+
+  let purchase = {
+    _id: req.body.course_id,
+    name: req.body.course_name,
+    courseurl: req.body.courseurl,
+    category: req.body.course_category,
+    amount: req.body.amount,
+    transaction_id: req.body.transaction_id,
+  };
+
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $push: { purchases: purchases } },
+    { new: true },
+    (err, user) => {
+      if (err) {
+        return res.status(400).json({
+          error: "unable to push item in purchase list",
+        });
+      }
+      next();
+    }
+  );
 };

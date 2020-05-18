@@ -1,0 +1,13 @@
+.color-nav {
+  background-color: #800080;
+  height: 5rem;
+}
+
+.navbar-nav {
+  background-color: #800080;
+  text-align: center;
+}
+
+.btn {
+  border-radius: 0%;
+}

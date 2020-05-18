@@ -1,0 +1,25 @@
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+div > h1,
+h2,
+h3,
+h4,
+h5,
+p,
+div,
+.jumbotron {
+  margin-bottom: 0px;
+}
+
+div > button {
+  border-radius: 0%;
+}
+
+.btn {
+  border-radius: 0%;
+}

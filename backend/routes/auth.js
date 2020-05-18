@@ -3,7 +3,7 @@ const router = require("express").Router();
 const { check } = require("express-validator");
 
 // calling some controllers for hitting the routes
-const { signin, signout, signup } = require("../controllers/user");
+const { signin, signout, signup } = require("../controllers/auth");
 
 router.post(
   "/signup",
