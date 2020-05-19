@@ -14,7 +14,6 @@ const courseRoutes = require("./routes/course");
 const orderRoutes = require("./routes/order");
 const categoryRoutes = require("./routes/category");
 
-//DB Connection
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,

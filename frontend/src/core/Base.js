@@ -3,7 +3,7 @@ import Menu from "./Menu";
 import { Jumbotron, Container } from "react-bootstrap";
 import "../assets/css/base.css";
 
-const Base = ({ title = "", desciption = "", children }) => {
+const Base = ({ title = "", description = "", children }) => {
   return (
     <div>
       <Menu />
@@ -11,7 +11,7 @@ const Base = ({ title = "", desciption = "", children }) => {
         <Jumbotron className="base-jumbotron">
           <Container>
             <h2>{title}</h2>
-            <p>{desciption}</p>
+            <p>{description}</p>
           </Container>
         </Jumbotron>
         <div className="text-center">{children}</div>

@@ -22,20 +22,23 @@ const courseSchema = new mongoose.Schema(
       type: String,
     },
 
-    /*
-    subcourses: {
+    coursedata: {
       type: Array,
       default: [
         {
-          name: String,
-          videos: {
+          conceptname: String,
+          conceptdata: {
             type: Array,
-            default: [],
+            default: [
+              {
+                topic: String,
+                videourl: String,
+              },
+            ],
           },
         },
       ],
     },
-    */
 
     price: {
       type: Number,

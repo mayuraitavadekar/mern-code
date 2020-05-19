@@ -2,10 +2,18 @@
 
 recent update - [ 16 may ]
 
-### Current Issues && Future Issues
+### Current Issues
 
-- [x] admin panel - manage catagories, manage orders!
+- [x] uploading videos in S3
+- [] use security best practices CORS/ACL/signedURLs etc.
+- [] design the video player
+- [] design the page containing - video player, syllabus, all URLs and name of concepts!
+- [] fetch the data from database into the page having urls!
+- [] when use clicks on perticular link, getSignedURL and direct update src in video player to play video
 
+### future issues
+- [] setup complete cloud architecture containing s3, lambda, media-convert, cloudfront!
+- [] admin panel - manage categories (future issue)
 ### backend-updates
 
 - [x] Auth Routes -> signin, signout, signup | tested! working! jwt-decode may use in front-end
@@ -42,6 +50,9 @@ Components - updateCourse + deleteCourse functions<br>
 errors - you cannot involve controllable comps with uncontrollable comps ( still exists ) <br>
 fetches - getAllCategories, getCourse, updateCourse<br>
 
+- [x]
+Components - (ImageHelper) -reused-in-> (CardComponent) -reused-in-> (Courses)<br>
+fetches - getPhoto, getCourses<br>
 
 
 ## cloud updates
