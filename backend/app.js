@@ -6,6 +6,20 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
+const AWS = require("aws-sdk");
+
+// AWS config
+const config = new AWS.Config({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+// setting up S3
+const S3 = new AWS.S3({
+  apiVersion: "2006-03-01",
+  region: AWS.config.region,
+});
 
 //My routes
 const authRoutes = require("./routes/auth");
@@ -44,3 +58,30 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`app is running at ${port}`);
 });
+
+/*
+S3.listBuckets((err, data) => {
+  if (err) console.log(err);
+  else console.log("success", data);
+});
+
+
+const params = {
+  Bucket: "ecma-course",
+};
+
+S3.listObjects(params, (err, data) => {
+  if (err) console.log(err);
+  else console.log(data);
+});
+
+console.log("generating presigned URLs");
+
+var presignedGETURL = S3.getSignedUrl("getObject", {
+  Bucket: "ecma-course",
+  Key: "ecma-11.mp4", //filename
+  Expires: 100, //time to expire in seconds
+});
+
+console.log("presigned URLs ", presignedGETURL);
+*/
