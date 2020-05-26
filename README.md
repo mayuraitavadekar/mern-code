@@ -1,19 +1,21 @@
 # Configurations 
 
-recent update - [ 16 may ]
+recent update - [ 27 may ]
 
 ### Current Issues
 
-- [x] uploading videos in S3
-- [] use security best practices CORS/ACL/signedURLs etc.
-- [] design the video player
-- [] design the page containing - video player, syllabus, all URLs and name of concepts!
-- [] fetch the data from database into the page having urls!
-- [] when use clicks on perticular link, getSignedURL and direct update src in video player to play video
+
 
 ### future issues
-- [] setup complete cloud architecture containing s3, lambda, media-convert, cloudfront!
-- [] admin panel - manage categories (future issue)
+- [ ] uploading videos in S3
+- [ ] use security best practices CORS/ACL/signedURLs etc.
+- [ ] design the video player
+- [ ] design the page containing - video player, syllabus, all URLs and name of concepts!
+- [ ] fetch the data from database into the page having urls!
+- [ ] when use clicks on perticular link, getSignedURL and direct update src in video player to play video
+- [ ] setup complete cloud architecture containing s3, lambda, media-convert, cloudfront!
+- [ ] admin panel - manage categories (future issue)
+
 ### backend-updates
 
 - [x] Auth Routes -> signin, signout, signup | tested! working! jwt-decode may use in front-end
@@ -56,7 +58,7 @@ fetches - getPhoto, getCourses<br>
 
 
 ## cloud updates
-- [ ] NA
+- [x] data uploaded to vimeo
 
 ## DB updates
 - [ ] NA
@@ -79,4 +81,82 @@ fetches - getPhoto, getCourses<br>
 - 403 - access denied - specially used in authentication
 - 200 - OK
 - 404 - not found
+
+## important AWS functions
+
+```javascript
+const AWS = require("aws-sdk");
+
+// AWS config
+const config = new AWS.Config({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+// setting up S3
+const S3 = new AWS.S3({
+  apiVersion: "2006-03-01",
+  region: AWS.config.region,
+});
+
+S3.listBuckets((err, data) => {
+  if (err) console.log(err);
+  else console.log("success", data);
+});
+
+
+const params = {
+  Bucket: "ecma-course",
+};
+
+S3.listObjects(params, (err, data) => {
+  if (err) console.log(err);
+  else console.log(data);
+});
+
+console.log("generating presigned URLs");
+
+var presignedGETURL = S3.getSignedUrl("getObject", {
+  Bucket: "ecma-course",
+  Key: "ecma-11.mp4", //filename
+  Expires: 100, //time to expire in seconds
+});
+
+console.log("presigned URLs ", presignedGETURL);
+
+```
+
+```xmi
+
+[
+	{
+		"conceptname": "introduction",
+		"conceptdata": [{
+				"topic": "what is javascript",
+				"videourl": "www.videourl.com"
+			},
+			{
+				"topic": "let vs const",
+				"videourl": "www.videourl.com"
+			}
+		]
+	},
+	{
+		"conceptname": "advanced concepts in javascript",
+		"conceptdata": [{
+				"topic": "inheritance in javascript",
+				"videourl": "www.videourl.com"
+			},
+			{
+				"topic": "memory usage and code debugging",
+				"videourl": "www.videourl.com"
+			}
+		]
+	}
+]
+
+
+
+```
 

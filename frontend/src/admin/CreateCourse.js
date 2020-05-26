@@ -23,6 +23,7 @@ const CreateCourse = () => {
     price: "",
     photo: "",
     category: "",
+    coursedata: "",
     categories: [],
     loading: "",
     error: "",
@@ -42,6 +43,7 @@ const CreateCourse = () => {
     success,
     formData,
     loading,
+    coursedata,
   } = values;
 
   const preload = () => {
@@ -76,6 +78,7 @@ const CreateCourse = () => {
   };
 
   const onSubmit = (event) => {
+    console.log("values ", values);
     event.preventDefault();
     setValues({ ...values, error: "", loading: true, success: false });
     createCourse(user._id, token, formData)
@@ -97,6 +100,7 @@ const CreateCourse = () => {
             createdProduct: data.name,
             success: true,
             error: "",
+            coursedata: "",
           });
         }
       })
@@ -136,7 +140,7 @@ const CreateCourse = () => {
   //TODO: main createForm Component
   const createCourseForm = () => {
     return (
-      <Container className="form mt-2" fluid>
+      <Container className="form mt-4" fluid>
         <Form>
           <Form.Group controlId="formBasicName">
             <Row className="mt-2">
@@ -204,11 +208,25 @@ const CreateCourse = () => {
                 </Form.Control>
               </Col>
             </Row>
+            <Row className="mt-2">
+              <Col>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>Course Data ( Enter JSON Data )</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
+                    value={coursedata}
+                    onChange={handleChange("coursedata")}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
           </Form.Group>
 
-          <Row className="mt-2">
+          <Row className="mt-2 mb-4">
             <Col className="text-center">
               <Button
+                className="mb-4"
                 variant="primary"
                 onClick={onSubmit}
                 disabled={loading}

@@ -1,0 +1,28 @@
+[
+   {
+      "sectionname":"Introduction to Javascript",
+      "sectiondata":[
+         {
+            "topic":"Let vs Const",
+            "videourl":"www.google.com"
+         },
+         {
+            "topic":"Basic programming in Javascript",
+            "videourl":"www.google.com"
+         }
+      ]
+   },
+   {
+      "sectionname":"Advanced conncepts in Javascript",
+      "sectiondata":[
+         {
+            "topic":"Inheritance in Javascript",
+            "videourl":"www.google.com"
+         },
+         {
+            "topic":"Ending bonus video",
+            "videourl":"www.google.com"
+         }
+      ]
+   }
+]

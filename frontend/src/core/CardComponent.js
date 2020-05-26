@@ -12,15 +12,18 @@ const CardComponent = ({ course }) => {
     <div>
       <Card
         as={Link}
-        to="/gosomewhere"
+        to={`/courses/${course.name}`}
         className="m-auto"
-        style={{ width: "18rem" }}
+        style={{
+          width: "18rem",
+          textDecoration: "none",
+        }}
       >
         <Imagehelper course={course} />
-        <Card.Body>
+        <Card.Body className="text-left text-dark">
           <Card.Title>{name}</Card.Title>
           <Card.Text>{lessons}</Card.Text>
-          <Card.Text>{price}</Card.Text>
+          <Card.Text>Rs. {price ? price + " /-" : "FREE"}</Card.Text>
         </Card.Body>
       </Card>
     </div>

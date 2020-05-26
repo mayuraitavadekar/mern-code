@@ -26,8 +26,8 @@ const courseSchema = new mongoose.Schema(
       type: Array,
       default: [
         {
-          conceptname: String,
-          conceptdata: {
+          sectionname: String,
+          sectiondata: {
             type: Array,
             default: [
               {

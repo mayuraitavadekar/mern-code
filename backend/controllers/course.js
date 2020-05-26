@@ -29,14 +29,22 @@ exports.createCourse = (req, res) => {
     }
 
     // destructuring of fields
-    const { name, description, courseurl, subcourses, price } = fields;
+    const { name, description, courseurl, price } = fields;
+
+    let array = [];
+    let data = fields.coursedata;
+    data = JSON.parse(data);
+    data.map((item, index) => {
+      array.push(item);
+    });
+    fields.coursedata = array;
 
     if (
       name == "" ||
       description == "" ||
       courseurl == "" ||
       price == "" ||
-      subcourses == ""
+      fields.coursedata == ""
     ) {
       return res.status(400).json({
         error: "please include all the fields",

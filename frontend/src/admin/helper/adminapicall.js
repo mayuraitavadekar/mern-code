@@ -99,3 +99,20 @@ export const deleteCourse = (userId, courseId, token) => {
     })
     .catch((err) => console.log("error in hitting delete course route ", err));
 };
+
+export const getCourseDataFromCloud = (courseurl, token) => {
+  return fetch(`${API}/coursedata`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: courseurl,
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) =>
+      console.log("error in hitting get getCourseData route", err)
+    );
+};
