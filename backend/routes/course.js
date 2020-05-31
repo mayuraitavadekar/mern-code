@@ -12,6 +12,7 @@ const {
   deleteCourse,
   getAllCourses,
   getAllUniqueCategories,
+  getCourseByName,
 } = require("../controllers/course.js");
 
 router.param("userId", getUserById);
@@ -28,6 +29,7 @@ router.post(
 
 // read
 router.get("/course/:courseId", getCourse);
+router.post("/course", getCourseByName);
 router.get("/course/photo/:courseId", getPhoto);
 router.get("/courses/categories", getAllUniqueCategories);
 

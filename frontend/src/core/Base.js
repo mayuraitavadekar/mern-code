@@ -17,7 +17,7 @@ const Base = ({ title = "", description = "", children }) => {
         <div className="text-center">{children}</div>
         <footer className="footer fixed-bottom">
           <p className="text-center text-white bg-dark">
-            Copyright © 2020 My Company. All rights reserved.
+            Copyright © 2020 Educulture. All rights reserved.
           </p>
         </footer>
       </div>

@@ -12,7 +12,7 @@ import AddCategory from "./admin/AddCategory";
 import ManageCourses from "./admin/ManageCourses";
 import UpdateCourse from "./admin/UpdateCourse";
 import Courses from "./core/Courses";
-import CourseData from "./core/CourseData";
+import CourseComponent from "./core/CourseComponent";
 
 const Routes = () => {
   return (
@@ -20,7 +20,7 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/courses" exact component={Courses} />
-        <Route path="/courses/:courseName" exact component={CourseData} />
+        <Route path="/courses/:courseName" exact component={CourseComponent} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/signin" exact component={Signin} />
         <PrivateRoutes path="/user/dashboard" exact component={UserDashboard} />

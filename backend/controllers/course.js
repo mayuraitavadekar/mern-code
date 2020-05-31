@@ -94,6 +94,14 @@ exports.updateCourse = (req, res) => {
       });
     }
 
+    let array = [];
+    let data = fields.coursedata;
+    data = JSON.parse(data);
+    data.map((item, index) => {
+      array.push(item);
+    });
+    fields.coursedata = array;
+
     // updation code
     let course = req.course;
     course = _.extend(course, fields);
@@ -165,4 +173,20 @@ exports.getAllUniqueCategories = (req, res) => {
     }
     return res.json(category);
   });
+};
+
+exports.getCourseByName = (req, res) => {
+  console.log("method is used");
+  let courseName = req.body.courseName;
+  Course.findOne({ name: courseName })
+    .populate("category")
+    .select("-photo")
+    .exec((err, course) => {
+      if (err) {
+        return res.status(400).json({
+          error: "error in getting course data",
+        });
+      }
+      return res.json(course);
+    });
 };

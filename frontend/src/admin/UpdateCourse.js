@@ -27,6 +27,7 @@ const UpdateCourse = ({ match }) => {
     price: "",
     photo: "",
     category: "",
+    coursedata: "",
     categories: [],
     loading: "",
     error: "",
@@ -46,6 +47,7 @@ const UpdateCourse = ({ match }) => {
     success,
     formData,
     loading,
+    coursedata,
   } = values;
 
   const preload = (courseId) => {
@@ -54,6 +56,7 @@ const UpdateCourse = ({ match }) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
+        console.log(data);
         preloadCategories();
         setValues({
           ...values,
@@ -61,6 +64,7 @@ const UpdateCourse = ({ match }) => {
           description: data.description,
           price: data.price,
           category: data.category,
+          coursedata: JSON.stringify(data.coursedata),
           courseurl: data.courseurl,
           formData: new FormData(),
         });
@@ -219,6 +223,19 @@ const UpdateCourse = ({ match }) => {
                       </option>
                     ))}
                 </Form.Control>
+              </Col>
+            </Row>
+            <Row className="mt-2">
+              <Col>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>Course Data ( Enter JSON Data )</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
+                    value={coursedata}
+                    onChange={handleChange("coursedata")}
+                  />
+                </Form.Group>
               </Col>
             </Row>
           </Form.Group>

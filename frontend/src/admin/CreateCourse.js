@@ -78,7 +78,7 @@ const CreateCourse = () => {
   };
 
   const onSubmit = (event) => {
-    console.log("values ", values);
+    //console.log("values ", values);
     event.preventDefault();
     setValues({ ...values, error: "", loading: true, success: false });
     createCourse(user._id, token, formData)
@@ -165,7 +165,9 @@ const CreateCourse = () => {
             </Row>
             <Row className="mt-2">
               <Col>
-                <Form.Label className="form-label">Course URL</Form.Label>
+                <Form.Label className="form-label">
+                  Course URL ( ID )
+                </Form.Label>
                 <Form.Control
                   value={courseurl}
                   onChange={handleChange("courseurl")}

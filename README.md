@@ -1,10 +1,22 @@
 # Configurations 
 
-recent update - [ 27 may ]
+recent update - [ 31 may ]
 
 ### Current Issues
-
-
+- [x] update: updateCourse component
+- [ ] manageCategory Component
+- [ ] verify account through email
+- [ ] delete account
+- [ ] change password
+- [x] uploading videos to vimeo with no privacy ( later on testing with private videos embedding is required )
+- [x] create course by inserting the vimeo data into the database.
+- [x] write the appropriate backend methods to send the required cloud data with the database course data to the front end. 
+- [x] handle data in the front end.
+- [x] on cliking cards of courses, the backend will fetch the getCourse() route and course data will be shown to the user. on this component, user can see all the content ( sections, videos in each section ), details about course, course trainer details, etc. User can buy the course here. if the user has already bought this course, there will be disabled button so that user cannot buy the course again. 
+- [ ] on cliking the ```purchase course``` button, the pop up of payment gateway is opened, user needs to enter the card information / payment information here. after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
+- [ ] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
+- [ ] if the payment is complete, the course is added in the user model, the email will be sent to the user about which course he has purchased.
+- [ ] else the status of the payment is mailed to user. 
 
 ### future issues
 - [ ] uploading videos in S3
@@ -17,7 +29,6 @@ recent update - [ 27 may ]
 - [ ] admin panel - manage categories (future issue)
 
 ### backend-updates
-
 - [x] Auth Routes -> signin, signout, signup | tested! working! jwt-decode may use in front-end
 - [x] User Routes -> getUserById, getUser, updateUser, getUserPurchaseList(return array), deleteAccount, getUserCourses(return array) | tested! working! except(getUserPurchaseList, getUserCourses will be tested with front-end)
 - [x] Course Routes -> getCourseById, getCourse, createCourse, deleteCourse, getAllCourses, getCourse, getPhoto | tested! working! getAllCourses is not selecting images! need to test in front-end!
@@ -58,13 +69,18 @@ fetches - getPhoto, getCourses<br>
 
 
 ## cloud updates
-- [x] data uploaded to vimeo
+- [x] data uploaded to vimeo /  kept private!
 
 ## DB updates
 - [ ] NA
 
 ## file structure change update
 - [ ] NA
+
+## production updates
+- [x] static temp website hosted using s3, cloudfront and godaddy DNS.<br>
+important link - https://medium.com/@channaly/how-to-host-static-website-with-https-using-amazon-s3-251434490c59  <br>
+important link - https://medium.com/@brodartec/hosting-a-static-site-with-https-enabled-using-aws-s3-cloudfront-and-godaddy-826dae41fdc6 <br>
 
 ## libraries
 
@@ -124,6 +140,8 @@ var presignedGETURL = S3.getSignedUrl("getObject", {
 });
 
 console.log("presigned URLs ", presignedGETURL);
+```
+## JSON course data
 
 ```
 
@@ -131,8 +149,9 @@ console.log("presigned URLs ", presignedGETURL);
 
 [
 	{
-		"conceptname": "introduction",
-		"conceptdata": [{
+		"sectionname": "introduction",
+		"sectiondata": [
+			{
 				"topic": "what is javascript",
 				"videourl": "www.videourl.com"
 			},
@@ -143,8 +162,9 @@ console.log("presigned URLs ", presignedGETURL);
 		]
 	},
 	{
-		"conceptname": "advanced concepts in javascript",
-		"conceptdata": [{
+		"sectionname": "advanced concepts in javascript",
+		"sectiondata": [
+			{
 				"topic": "inheritance in javascript",
 				"videourl": "www.videourl.com"
 			},
@@ -159,4 +179,5 @@ console.log("presigned URLs ", presignedGETURL);
 
 
 ```
+
 
