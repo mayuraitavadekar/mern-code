@@ -16,7 +16,7 @@ const Base = ({ title = "", description = "", children }) => {
         </Jumbotron>
         <div className="text-center">{children}</div>
         <footer className="footer fixed-bottom">
-          <p className="text-center text-white bg-dark">
+          <p className="text-center text-white bg-info">
             Copyright © 2020 Educulture. All rights reserved.
           </p>
         </footer>

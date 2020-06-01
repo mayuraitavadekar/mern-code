@@ -176,7 +176,6 @@ exports.getAllUniqueCategories = (req, res) => {
 };
 
 exports.getCourseByName = (req, res) => {
-  console.log("method is used");
   let courseName = req.body.courseName;
   Course.findOne({ name: courseName })
     .populate("category")

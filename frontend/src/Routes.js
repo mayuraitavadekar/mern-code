@@ -19,8 +19,6 @@ const Routes = () => {
     <Router>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/courses" exact component={Courses} />
-        <Route path="/courses/:courseName" exact component={CourseComponent} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/signin" exact component={Signin} />
         <PrivateRoutes path="/user/dashboard" exact component={UserDashboard} />
@@ -41,6 +39,8 @@ const Routes = () => {
           exact
           component={UpdateCourse}
         />
+        <Route path="/courses" exact component={Courses} />
+        <Route path="/courses/:courseName" exact component={CourseComponent} />
       </Switch>
     </Router>
   );

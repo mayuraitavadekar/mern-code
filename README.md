@@ -1,6 +1,6 @@
 # Configurations 
 
-recent update - [ 31 may ]
+recent update - [ 2 June ]
 
 ### Current Issues
 - [x] update: updateCourse component
@@ -12,6 +12,7 @@ recent update - [ 31 may ]
 - [x] create course by inserting the vimeo data into the database.
 - [x] write the appropriate backend methods to send the required cloud data with the database course data to the front end. 
 - [x] handle data in the front end.
+- [x] user can play videos on website using modal. those will be only free videos. So either from vimeo public URL or from youtube public URL. Rest of the links are disabled. 
 - [x] on cliking cards of courses, the backend will fetch the getCourse() route and course data will be shown to the user. on this component, user can see all the content ( sections, videos in each section ), details about course, course trainer details, etc. User can buy the course here. if the user has already bought this course, there will be disabled button so that user cannot buy the course again. 
 - [ ] on cliking the ```purchase course``` button, the pop up of payment gateway is opened, user needs to enter the card information / payment information here. after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
 - [ ] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
@@ -67,9 +68,13 @@ fetches - getAllCategories, getCourse, updateCourse<br>
 Components - (ImageHelper) -reused-in-> (CardComponent) -reused-in-> (Courses)<br>
 fetches - getPhoto, getCourses<br>
 
+- [x]
+component - CourseComponent, Courses
+fetches - getCourseByName
 
 ## cloud updates
-- [x] data uploaded to vimeo /  kept private!
+- [x] data uploaded to vimeo /  kept public all!
+
 
 ## DB updates
 - [ ] NA
