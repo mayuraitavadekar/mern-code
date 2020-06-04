@@ -6,13 +6,13 @@ import { signout, isAuthenticated } from "../auth/helper/index";
 
 const Menu = ({ history }) => {
   return (
-    <Navbar fixed variant="light" className="color-nav fixed-top" expand="lg">
+    <Navbar variant="light" className="color-nav responsive" expand="lg">
       <Navbar.Brand className="nav-brand" href="#home">
         Company Name
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="ml-auto">
+        <Nav className="ml-auto mr-3">
           <Nav.Link className="text-white m-auto" as={Link} to="/">
             Home
           </Nav.Link>

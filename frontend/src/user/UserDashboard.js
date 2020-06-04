@@ -117,10 +117,7 @@ const UserDashboard = () => {
   //TODO: the main user dashboard component
   return (
     <div>
-      <Base
-        title="Account"
-        desciption="We encourage you not to share any personal data with anyone."
-      />
+      <Base />
       {userInformation()}
     </div>
   );

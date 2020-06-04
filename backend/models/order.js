@@ -3,34 +3,46 @@ const { ObjectId } = mongoose.Schema;
 
 const orderSchema = new mongoose.Schema(
   {
+    user: {
+      type: ObjectId,
+      ref: "User",
+    },
+
     course: {
       type: String,
-    },
-
-    courseurl: {
-      type: String,
-    },
-
-    transaction_id: {
-      type: String,
+      required: true,
     },
 
     amount: {
       type: Number,
+      required: true,
     },
 
-    address: {
+    razorpay_payment_id: {
       type: String,
+      required: true,
+    },
+
+    razorpay_order_id: {
+      type: String,
+      required: true,
+    },
+
+    razorpay_signature: {
+      type: String,
+      required: true,
     },
 
     status: {
       type: String,
-      default: "Not Received", // { received, processing, not received }
+      required: true,
+      default: "not received", // { initiated, received, not received }
     },
 
-    user: {
-      type: ObjectId,
-      ref: "User",
+    verified: {
+      type: String,
+      required: true,
+      default: "not verified",
     },
   },
   { timestamps: true }

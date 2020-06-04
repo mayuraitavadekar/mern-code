@@ -14,13 +14,7 @@ router.param("orderId", getOrderById);
 router.param("userId", getUserById);
 
 // create
-router.post(
-  "/order/create/:userId",
-  isSignIn,
-  isAuthenticated,
-  isAdmin,
-  createOrder
-);
+router.post("/order/create/:userId", isSignIn, isAuthenticated, createOrder);
 
 router.get(
   "/orders/all/:userId",

@@ -1,0 +1,19 @@
+.pay-btn {
+  background-color: #800080;
+  border-color: #800080;
+  width: 40%;
+  border-radius: 20px;
+}
+
+.pay-btn:hover {
+  background-color: #540154;
+  border-color: #540154;
+}
+
+.secure-connection {
+  color: green;
+}
+
+.spinner {
+  margin-top: 250px;
+}

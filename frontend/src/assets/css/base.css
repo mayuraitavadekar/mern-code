@@ -1,8 +1,7 @@
-.jumbotron {
-  padding: 2rem 2rem;
-  border-radius: 0%;
+html {
+  scroll-behavior: smooth;
 }
 
-.base {
-  margin-top: 5rem;
+.header {
+  z-index: 100;
 }

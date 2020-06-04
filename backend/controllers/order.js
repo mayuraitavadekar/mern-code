@@ -15,15 +15,15 @@ exports.getOrderById = (req, res, next, id) => {
 //-----------------------------------------------------------------
 
 exports.createOrder = (req, res) => {
-  req.body.order.user = req.profile; // amazing
-  let order = new Order(req.body.order);
+  req.body.user = req.profile;
+  let order = new Order(req.body);
   order.save((err, order) => {
     if (err) {
       return res.status(400).json({
         error: "failed to create order in DB",
       });
     }
-    res.json(order);
+    return res.json(order);
   });
 };
 

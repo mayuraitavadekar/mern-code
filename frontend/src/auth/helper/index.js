@@ -34,7 +34,6 @@ export const signin = (user) => {
 
 export const signout = (next) => {
   // remove cookie
-  console.log("signout work!");
   cookies.remove("user_data");
   next();
 

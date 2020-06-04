@@ -11,11 +11,21 @@ import {
   Spinner,
   Modal,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { getCourseByName } from "./helper/coreapicalls";
 import Imagehelper from "./helper/Imagehelper";
-import { Link } from "react-router-dom";
 
+//TODO: the main course component
 const CourseComponent = ({ match }) => {
+  // --------------- modal ---------------------------------
+
+  const [modalShow, setModalShow] = useState(false);
+  const [modalValues, setModalValues] = useState({
+    videourl: "",
+    topic: "",
+  });
+
+  // --------------- course data ---------------------------
   const [values, setValues] = useState({
     _id: "",
     name: "",
@@ -26,12 +36,6 @@ const CourseComponent = ({ match }) => {
     error: false,
     loading: false,
     success: false,
-  });
-
-  const [modalShow, setModalShow] = useState(false);
-  const [modalValues, setModalValues] = useState({
-    videourl: "",
-    topic: "",
   });
 
   const { name, description, price, coursedata } = values;
@@ -189,7 +193,8 @@ const CourseComponent = ({ match }) => {
                           as={Link}
                           className="mt-2 "
                           variant="primary"
-                          to=""
+                          to={`/course/payment/${name}`}
+                          //onClick={displayRazorpay}
                         >
                           purchase course
                         </Button>

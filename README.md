@@ -1,23 +1,28 @@
 # Configurations 
 
-recent update - [ 2 June ]
+recent update - [ 4 June ]
 
 ### Current Issues
+
+-
+
+- [x] uploading videos to vimeo with no privacy ( later on testing with private videos embedding is required )
+- [x] create course by inserting the vimeo data into the database.
+- [x] user can play videos on website using modal. those will be only free videos. So either from vimeo public URL or from youtube public URL. Rest of the links are disabled. 
+- [x] on cliking cards of courses, the backend will fetch the getCourse() route and course data will be shown to the user. on this component, user can see all the content ( sections, videos in each section ), details about course, course trainer details, etc. User can buy the course here. if the user has already bought this course, there will be disabled button so that user cannot buy the course again. 
+- [x] on cliking the `purchase course` button, the pop up of payment gateway is opened, user needs to enter the card information / payment information here. 
+
+- [ ] on clicking the purchase button, check the user is authenticated or not. if the user is authenticated then only he can purchase the course. Hence move him to the `signin` page.
+
+- [x]after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
+- [ ] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
+- [ ] if the payment is complete, the course is added in the user model, the email will be sent to the user about which course he has purchased.
+- [ ] else the status of the payment is mailed to user. 
 - [x] update: updateCourse component
 - [ ] manageCategory Component
 - [ ] verify account through email
 - [ ] delete account
 - [ ] change password
-- [x] uploading videos to vimeo with no privacy ( later on testing with private videos embedding is required )
-- [x] create course by inserting the vimeo data into the database.
-- [x] write the appropriate backend methods to send the required cloud data with the database course data to the front end. 
-- [x] handle data in the front end.
-- [x] user can play videos on website using modal. those will be only free videos. So either from vimeo public URL or from youtube public URL. Rest of the links are disabled. 
-- [x] on cliking cards of courses, the backend will fetch the getCourse() route and course data will be shown to the user. on this component, user can see all the content ( sections, videos in each section ), details about course, course trainer details, etc. User can buy the course here. if the user has already bought this course, there will be disabled button so that user cannot buy the course again. 
-- [ ] on cliking the ```purchase course``` button, the pop up of payment gateway is opened, user needs to enter the card information / payment information here. after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
-- [ ] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
-- [ ] if the payment is complete, the course is added in the user model, the email will be sent to the user about which course he has purchased.
-- [ ] else the status of the payment is mailed to user. 
 
 ### future issues
 - [ ] uploading videos in S3
@@ -184,5 +189,28 @@ console.log("presigned URLs ", presignedGETURL);
 
 
 ```
+
+## payment algorithm
+
+``` 
+	- click on the PURCHASE COURSE BUTTON
+	- check if user is authenticated or not. if the user is not authenticated move him to sign in page. 
+	- else change payment status to initiated.
+	- if the fetch("/razorpay") -> razorpay has authorized the educulture to create-order hence change payment to processing.
+	- when the payment is successfully received to educulture bank account using razorpay servers it is called as "captured". change the payment status to "captured/payment received/payment complete".
+	- else 
+	- when to refund the payment -
+		1. if the payment is captured then we can refund the money. 
+		2. if the payment is captured and money is deducted from users bank account, then user have to contact the bank to get refund.  
+	- after captuting the payment - 
+		0. verify payment both using webhook and using generated ids!
+		1. print payment receipt // not required
+		2. enter the order data in the order model
+		3. push order in purchase list
+		4. disabled the purchase button so that user cannot buy the course again till the validity ends.
+		5. once user tries to open the course, check if the validity of the course is remaining or eneded. 
+		6. if the validity ended, user cannot open the course and has to buy the course again.  
+```
+	
 
 

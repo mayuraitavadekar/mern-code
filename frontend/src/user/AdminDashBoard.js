@@ -6,10 +6,7 @@ import "../assets/css/styles.css";
 const AdminDashBoard = ({ children }) => {
   return (
     <div>
-      <Base
-        title="Admin Dashboard"
-        desciption="Manage your web application here."
-      >
+      <Base>
         <AdminNavbar />
       </Base>
     </div>

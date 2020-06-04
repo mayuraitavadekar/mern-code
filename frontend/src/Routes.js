@@ -13,6 +13,7 @@ import ManageCourses from "./admin/ManageCourses";
 import UpdateCourse from "./admin/UpdateCourse";
 import Courses from "./core/Courses";
 import CourseComponent from "./core/CourseComponent";
+import Payment from "./user/Payment";
 
 const Routes = () => {
   return (
@@ -41,6 +42,11 @@ const Routes = () => {
         />
         <Route path="/courses" exact component={Courses} />
         <Route path="/courses/:courseName" exact component={CourseComponent} />
+        <PrivateRoutes
+          path="/course/payment/:courseName"
+          exact
+          component={Payment}
+        />
       </Switch>
     </Router>
   );

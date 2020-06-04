@@ -24,7 +24,7 @@ const Courses = () => {
 
   return (
     <div>
-      <Base title="Courses" description="browse courses here.">
+      <Base>
         <Container className="my-3">
           <Row>
             {courses.map((course, index) => {

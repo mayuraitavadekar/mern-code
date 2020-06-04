@@ -20,6 +20,7 @@ const userRoutes = require("./routes/user");
 const courseRoutes = require("./routes/course");
 const orderRoutes = require("./routes/order");
 const categoryRoutes = require("./routes/category");
+const paymentRoutes = require("./routes/payment");
 const cloudRoutes = require("./routes/cloud");
 
 //Database connection
@@ -60,6 +61,7 @@ app.use("/api", userRoutes); // getUserById, getUser, updateUser, deleteUser, ge
 app.use("/api", courseRoutes); // getUserById, getCourseById, createCourse, getCourse, getPhoto, deleteCourse, getAllCourses
 app.use("/api", orderRoutes); // createOrder and getAllorders
 app.use("/api", categoryRoutes);
+app.use("/api", paymentRoutes);
 app.use("/api", cloudRoutes);
 
 //PORT
