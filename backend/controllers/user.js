@@ -43,6 +43,7 @@ exports.updateUser = (req, res) => {
   );
 };
 
+/*
 exports.getUserPurchaseList = (req, res) => {
   Order.find({ user: req.profile._id })
     .populate("user", "_id name email purchases")
@@ -54,9 +55,10 @@ exports.getUserPurchaseList = (req, res) => {
       }
       return res.json(orders);
     });
-};
+}; // we are not using this till date
+*/
 
-exports.getUserCourses = (req, res) => {
+exports.getUserPurchaseList = (req, res) => {
   return res.json(req.profile.purchases);
 };
 
@@ -74,30 +76,35 @@ exports.deleteAccount = (req, res) => {
   });
 };
 
-// middleware
-exports.pushOrderInPurchaseList = (req, res, next) => {
+exports.pushOrderInPurchaseList = (req, res) => {
+  console.log("pushOrderInPurchaseList has been hit");
+
   // once user purchase the course we need to push it into purchases in user model
+  let currentDate = new Date();
+  let expirationDate = new Date(
+    currentDate.setMonth(currentDate.getMonth() + 3)
+  );
 
   let purchase = {
-    _id: req.body.course_id,
-    name: req.body.course_name,
-    courseurl: req.body.courseurl,
-    category: req.body.course_category,
-    amount: req.body.amount,
-    transaction_id: req.body.transaction_id,
+    course: req.course._id, // params middleware
+    name: req.body.name,
+    category: req.body.category,
+    amount: req.body.price,
+    expiration_date: expirationDate,
+    payment_id: req.body.payment_id,
   };
 
   User.findOneAndUpdate(
     { _id: req.profile._id },
-    { $push: { purchases: purchases } },
-    { new: true },
+    { $push: { purchases: purchase } },
+    { new: true, useFindAndModify: false },
     (err, user) => {
       if (err) {
         return res.status(400).json({
           error: "unable to push item in purchase list",
         });
       }
-      next();
+      console.log("order has been pushed successfully.", user);
     }
   );
 };

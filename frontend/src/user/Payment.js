@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
 import "../assets/css/payment.css";
-import { Container, Row, Col, Card, Button, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Spinner,
+  Modal,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper/index";
 import { getCourseByName } from "../core/helper/coreapicalls";
 import {
   createPaymentOrder,
   verifyPayment,
 } from "../core/helper/paymentapicalls";
+import {
+  createOrder,
+  pushOrderInUserPurchaseList,
+} from "./helper/userapicalls";
 
 // loadscript function
 const loadScript = (src) => {
@@ -26,7 +39,7 @@ const loadScript = (src) => {
 
 const __DEV__ = document.domain === "localhost";
 
-const Payment = ({ match }) => {
+const Payment = ({ match, history, location }) => {
   const { user, token } = isAuthenticated();
 
   const [values, setValues] = useState({
@@ -39,12 +52,14 @@ const Payment = ({ match }) => {
     success: false,
   });
 
+  const { _id, name, loading, price, category } = values;
+
   const [payButtonValues, setPayButtonValues] = useState({
-    status: "Pay Now",
+    status: "Pay Now", // initiated.. processing.. not verified.. verified..
     isDisabled: false,
   });
 
-  const { name, loading, price } = values;
+  const [modalShow, setModalShow] = useState(false);
 
   const preload = (courseName) => {
     setValues({ ...values, loading: true });
@@ -78,7 +93,7 @@ const Payment = ({ match }) => {
     setPayButtonValues({
       ...payButtonValues,
       isDisabled: true,
-      status: "Intitiated...",
+      status: "initiated",
     });
     let res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
     if (!res) {
@@ -92,7 +107,7 @@ const Payment = ({ match }) => {
       setPayButtonValues({
         ...payButtonValues,
         isDisabled: true,
-        status: "Processing...",
+        status: "processing",
       });
       if (data.error) {
         console.log("error in creating payment order in frontend");
@@ -118,22 +133,69 @@ const Payment = ({ match }) => {
               razorpay_order_id: order_id,
               razorpay_payment_id: payment_id,
               razorpay_signature: signature,
-            }).then((data) => {
-              console.log("verified : ", data);
-              if (data.error) {
-                setPayButtonValues({
-                  ...payButtonValues,
-                  isDisabled: true,
-                  status: "Not Verified.",
-                });
-              } else {
-                setPayButtonValues({
-                  ...payButtonValues,
-                  isDisabled: true,
-                  status: "verified successfully. Course has been purchased.",
-                });
-              }
-            });
+            })
+              .then((data) => {
+                // console.log("verified : ", data);
+                if (data.error) {
+                  setPayButtonValues({
+                    ...payButtonValues,
+                    isDisabled: true,
+                    status: "not verified",
+                  });
+                } else {
+                  setPayButtonValues({
+                    ...payButtonValues,
+                    isDisabled: true,
+                    status: "verified",
+                  });
+
+                  // create order into the database //TODO: this is gonna take more entities in upcoming time
+                  const orderData = {
+                    user: user._id,
+                    course: name,
+                    amount: price,
+                    razorpay_order_id: order_id,
+                    razorpay_payment_id: payment_id,
+                    razorpay_signature: signature,
+                    payment_status: "verified",
+                  };
+
+                  createOrder(user, token, orderData).then((data) => {
+                    if (data.error) {
+                      console.log(
+                        "error in storing order data in the database"
+                      );
+                    } else {
+                      console.log(
+                        "data has been successfully stored in the database."
+                      );
+                    }
+                  });
+                  setModalShow(true);
+                }
+              })
+              .catch((err) =>
+                console.log("error in verifying payment in front", err)
+              );
+            // push order in the purchase list
+            pushOrderInUserPurchaseList(user, token, _id, {
+              name,
+              category,
+              price,
+              payment_id,
+            })
+              .then((data) => {
+                if (data.error) {
+                  console.log("error in pushing order in user purchase list");
+                } else {
+                  console.log(
+                    "order has been successfully pushed in user purchase list."
+                  );
+                }
+              })
+              .catch((err) =>
+                console.log("erro in pushOrderInPurchaseList in frontend", err)
+              );
           },
           prefill: {
             name: user.name + " " + user.lastname,
@@ -147,9 +209,46 @@ const Payment = ({ match }) => {
     });
   };
 
-  const paymentReceipt = () => {
+  const PrintModal = () => {
     return (
-      <div>
+      <Modal
+        show={modalShow}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header>
+          <Modal.Title className="m-auto" id="contained-modal-title-vcenter">
+            {name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="text-center">
+            You have purchased{" "}
+            <span>
+              <b>{name}</b>
+            </span>{" "}
+            successfully. Thank you for your enrollment. Click on{" "}
+            <span>
+              <b>Your Enrollments</b>
+            </span>{" "}
+            to start watching the course content.
+          </p>
+        </Modal.Body>
+        <Modal.Footer className="m-auto">
+          <Button as={Link} to="/user/courses">
+            Your Enrollments
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
+
+  const PaymentReceipt = () => {
+    return (
+      <div id="payment-receipt">
         <Base />
         <Container className="border mt-2">
           <h3 className="text-left m-2">Invoice</h3>
@@ -171,7 +270,7 @@ const Payment = ({ match }) => {
             </Col>
           </Row>
           <hr className="" />
-          <Card className="m-auto" style={{ width: "100%" }}>
+          <Card className="mb-2" style={{ width: "100%" }}>
             <Card.Body>
               <Card.Title className="text-center font-weight-bold mt-2">
                 Order Details
@@ -202,17 +301,32 @@ const Payment = ({ match }) => {
               </Card.Text>
               <Row>
                 <Col className="text-center">
-                  <Button
-                    disabled={payButtonValues.isDisabled}
-                    className="pay-btn p-2"
-                    onClick={displayRazorpay}
-                  >
-                    {payButtonValues.status}
-                  </Button>
-                  <p className="secure-connection">
-                    <i className="fa fa-lock fa-fw p-2" aria-hidden="true"></i>
-                    &nbsp;You have secure connection.
-                  </p>
+                  {payButtonValues.status !== "verified" ? (
+                    <div>
+                      <Button
+                        disabled={payButtonValues.isDisabled}
+                        className="pay-btn p-2"
+                        onClick={displayRazorpay}
+                      >
+                        {payButtonValues.status}
+                      </Button>
+                      <p className="secure-connection">
+                        <i
+                          className="fa fa-lock fa-fw p-2"
+                          aria-hidden="true"
+                        ></i>
+                        &nbsp;You have secure connection.
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="secure-connection">
+                      <i
+                        className="fa fa-lock fa-fw p-2"
+                        aria-hidden="true"
+                      ></i>
+                      &nbsp;Payment has been verified. Thank you.
+                    </p>
+                  )}
                 </Col>
               </Row>
             </Card.Body>
@@ -226,7 +340,10 @@ const Payment = ({ match }) => {
   return (
     <div>
       {!loading ? (
-        paymentReceipt()
+        <div>
+          {PaymentReceipt()}
+          {PrintModal()}
+        </div>
       ) : (
         <div className="text-center spinner">
           <Spinner animation="border" variant="primary" />

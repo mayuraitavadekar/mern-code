@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const uuidv1 = require("uuid/v1");
+const { ObjectId } = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,6 +26,13 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
+    mobile_number: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+
     encry_password: {
       type: String,
       required: true,
@@ -40,7 +48,23 @@ const userSchema = new mongoose.Schema(
 
     purchases: {
       type: Array,
-      default: [], // default value is null
+      default: [
+        {
+          course: {
+            type: ObjectId,
+            ref: "Course",
+          },
+          name: String,
+          category: String,
+          amount: Number,
+          expiration_date: Date,
+          payment_id: String,
+          access: {
+            type: String,
+            default: "yes", // if validity is over; access: "no"
+          },
+        },
+      ], // default value is null
     },
   },
   { timestamps: true }

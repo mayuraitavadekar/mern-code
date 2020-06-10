@@ -14,6 +14,7 @@ import UpdateCourse from "./admin/UpdateCourse";
 import Courses from "./core/Courses";
 import CourseComponent from "./core/CourseComponent";
 import Payment from "./user/Payment";
+import Enrollments from "./user/Enrollments";
 
 const Routes = () => {
   return (
@@ -47,6 +48,7 @@ const Routes = () => {
           exact
           component={Payment}
         />
+        <PrivateRoutes path="/user/courses" exact component={Enrollments} />
       </Switch>
     </Router>
   );

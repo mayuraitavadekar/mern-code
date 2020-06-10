@@ -1,10 +1,8 @@
 # Configurations 
 
-recent update - [ 4 June ]
+recent update - [ 10 June ]
 
 ### Current Issues
-
--
 
 - [x] uploading videos to vimeo with no privacy ( later on testing with private videos embedding is required )
 - [x] create course by inserting the vimeo data into the database.
@@ -12,17 +10,20 @@ recent update - [ 4 June ]
 - [x] on cliking cards of courses, the backend will fetch the getCourse() route and course data will be shown to the user. on this component, user can see all the content ( sections, videos in each section ), details about course, course trainer details, etc. User can buy the course here. if the user has already bought this course, there will be disabled button so that user cannot buy the course again. 
 - [x] on cliking the `purchase course` button, the pop up of payment gateway is opened, user needs to enter the card information / payment information here. 
 
-- [ ] on clicking the purchase button, check the user is authenticated or not. if the user is authenticated then only he can purchase the course. Hence move him to the `signin` page.
+- [x] on clicking the purchase button, check the user is authenticated or not. if the user is authenticated then only he can purchase the course. Hence move him to the `signin` page.
 
-- [x]after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
-- [ ] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
-- [ ] if the payment is complete, the course is added in the user model, the email will be sent to the user about which course he has purchased.
-- [ ] else the status of the payment is mailed to user. 
+- [x] after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
+- [x] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
+- [x] if the payment is complete, the course is added in the user model, the email will be sent to the user about which course he has purchased.
+- [ ] else the status of the payment is mailed to user.
 - [x] update: updateCourse component
 - [ ] manageCategory Component
 - [ ] verify account through email
 - [ ] delete account
 - [ ] change password
+- [ ] add topcategory and subcategory in database
+- [ ] customised messages e.g. incorrect email, incorrect password while signin
+- [ ] customised messages e.g. email already exists, password atleast 4 characters while signup.
 
 ### future issues
 - [ ] uploading videos in S3
@@ -34,14 +35,141 @@ recent update - [ 4 June ]
 - [ ] setup complete cloud architecture containing s3, lambda, media-convert, cloudfront!
 - [ ] admin panel - manage categories (future issue)
 
+### File Structure of React
+```bash
+├── node_modules
+├── public
+├── src
+|   |
+│   ├── admin
+|   |     ├── helper
+|   |     |     └── adminapicalls.js
+|   |	  |
+|   |	  ├── AddCategory.js
+|   |	  ├── CreateCourse.js
+|   |	  ├── ManageCourses.js
+|   |	  ├── Order.js
+|   |	  ├── UpdateCourse.js	
+|   |
+|   |
+│   ├── assets
+|   |     ├── css
+|   |	  |     ├── base.css
+|   |	  |	├── coursecomponent.css
+|   |	  |	├── forms.css
+|   |	  |	├── menu.css
+|   |	  | 	├── payment.css
+|   |	  |	├── styles.css
+|   |	  |	├── userdashboard.css
+|   |	  |	├── enrollment.css
+|   |	  |
+|   |	  ├── assets
+|   |
+|   |
+│   ├── auth
+|   |     ├── helper
+|   |           ├── AdminRoutes.js
+|   |           ├── index.js
+|   |           ├── PrivateRoutes.js
+|   |
+│   ├── core
+|   |     ├── helper
+|   |     |     ├── coreapicalls.js
+|   |     |     ├── imagehelper.js
+|   |     |     ├── paymentapicalls.js
+|   |     |
+|   |     ├── Base.js
+|   |     ├── CardComponent.js
+|   |     ├── CourseComponent.js
+|   |     ├── Courses.js
+|   |     ├── Home.js
+|   |     ├── Menu.js
+|   |
+|   |
+│   ├── user
+|   |     ├── helper
+|   |     |     ├── userapicalls.js
+|   |     |
+|   |     ├── AdminDashBoard.js
+|   |     ├── AdminNavbar.js
+|   |     ├── Payment.js
+|   |     ├── AdminNavbar.js
+|   |     ├── Profile.js
+|   |     ├── Signin.js
+|   |     ├── Signup.js
+|   |     ├── UserDashBoard.js
+|   |     ├── Enrollment.js
+|   |
+|   |
+│   ├── App.js
+│   ├── Backend.js
+│   ├── index.js
+│   └── Routes.js
+|
+├── .env
+├── package.json
+└── .gitignore
+``` 
+
 ### backend-updates
-- [x] Auth Routes -> signin, signout, signup | tested! working! jwt-decode may use in front-end
-- [x] User Routes -> getUserById, getUser, updateUser, getUserPurchaseList(return array), deleteAccount, getUserCourses(return array) | tested! working! except(getUserPurchaseList, getUserCourses will be tested with front-end)
-- [x] Course Routes -> getCourseById, getCourse, createCourse, deleteCourse, getAllCourses, getCourse, getPhoto | tested! working! getAllCourses is not selecting images! need to test in front-end!
-- [x] Category Routes -> getCategoryByID, createCategory, updateCategory, deleteCategory, getAllUniqueCategories | tested! working!
+- [x] Auth Routes 
+```
+- signin
+- signout
+- signup 
+
+tested! working! jwt-decode may use in front-end
+```
+- [x] User Routes
+```
+- getUserById 
+- getUser
+- updateUser
+- getUserPurchaseList(return array)
+- deleteAccount
+- getUserCourses(return array)
+- PushOrderIntoUserPurchaseList
+
+tested! working! except(getUserPurchaseList, getUserCourses will be tested with front-end)
+```
+- [x] Course Routes
+```
+- getCourseById
+- getCourse
+- createCourse
+- deleteCourse
+- getAllCourses
+- getCourse
+- getPhoto 
+
+tested! working! getAllCourses is not selecting images! need to test in front-end!
+```
+- [x] Category Routes
+```
+- getCategoryByID
+- createCategory
+- updateCategory
+- deleteCategory
+- getAllUniqueCategories
+
+tested! working!
+```
+- [x] Payment Routes
+```
+- getUserById
+- createPaymentOrder(:userId)
+- verifyPaymentByWebHook(this method invoked by the razorpay when the payment is captured)
+- verifyPayment(this method sends orderId, paymentId and signature to the frontend)
+```
+- [x] Order Routes
+```
+- getOrderById
+- getUserById
+- createOrder(:userId)
+- getAllOrders(:userId + only for admins)
+```
 
 ## front-end updates
-- [x] 
 Components - Home, Signin, Signup<br>
 fetches - Signin, Signup, Signout<br>
 middlewares - isAuthenticated, Authenticate<br>
@@ -77,15 +205,17 @@ fetches - getPhoto, getCourses<br>
 component - CourseComponent, Courses
 fetches - getCourseByName
 
+
 ## cloud updates
 - [x] data uploaded to vimeo /  kept public all!
+- [x] temp static data to educulture.co.in on AWS s3, cloudfront!
 
 
 ## DB updates
 - [ ] NA
 
 ## file structure change update
-- [ ] NA
+- [x] updated README structure
 
 ## production updates
 - [x] static temp website hosted using s3, cloudfront and godaddy DNS.<br>
@@ -197,20 +327,24 @@ console.log("presigned URLs ", presignedGETURL);
 	- check if user is authenticated or not. if the user is not authenticated move him to sign in page. 
 	- else change payment status to initiated.
 	- if the fetch("/razorpay") -> razorpay has authorized the educulture to create-order hence change payment to processing.
-	- when the payment is successfully received to educulture bank account using razorpay servers it is called as "captured". change the payment status to "captured/payment received/payment complete".
-	- else 
-	- when to refund the payment -
-		1. if the payment is captured then we can refund the money. 
-		2. if the payment is captured and money is deducted from users bank account, then user have to contact the bank to get refund.  
-	- after captuting the payment - 
-		0. verify payment both using webhook and using generated ids!
-		1. print payment receipt // not required
-		2. enter the order data in the order model
-		3. push order in purchase list
+	- when the payment is captured - 
+		1. mail the receipt to the user
+		2. send ok msg to the webhook
+	- when the signature gets verified - 
+		1. insert the data into order.
+		2. add the course data into user purchase list.
+		3. move the user to the my enrollments.
 		4. disabled the purchase button so that user cannot buy the course again till the validity ends.
 		5. once user tries to open the course, check if the validity of the course is remaining or eneded. 
 		6. if the validity ended, user cannot open the course and has to buy the course again.  
+		
+	- when to refund the payment -
+		1. if the payment is captured by educulture, the money will not be refunded. 
+		2. if the payment is deducted from user but we have not received the payment, then we cannot refund the money. user have to contact the respective bank.
+		3. if the payment is deducted from user and we received the payment but because of poor internet connection, he did not received the receipt or haven't got payment verified, then he can contact us so that we can add the course into the his account. 
+
 ```
 	
+
 
 

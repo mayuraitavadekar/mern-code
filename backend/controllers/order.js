@@ -1,4 +1,6 @@
 const Order = require("../models/order");
+const User = require("../models/user");
+const moment = require("moment");
 
 exports.getOrderById = (req, res, next, id) => {
   Order.findById(id).exec((err, order) => {
@@ -15,6 +17,8 @@ exports.getOrderById = (req, res, next, id) => {
 //-----------------------------------------------------------------
 
 exports.createOrder = (req, res) => {
+  console.log("route hitted");
+  console.log(req.body);
   req.body.user = req.profile;
   let order = new Order(req.body);
   order.save((err, order) => {
@@ -23,6 +27,7 @@ exports.createOrder = (req, res) => {
         error: "failed to create order in DB",
       });
     }
+    console.log("order has been successfully created.");
     return res.json(order);
   });
 };

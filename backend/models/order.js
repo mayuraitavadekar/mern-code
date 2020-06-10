@@ -33,16 +33,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    status: {
+    payment_status: {
       type: String,
       required: true,
-      default: "not received", // { initiated, received, not received }
-    },
-
-    verified: {
-      type: String,
-      required: true,
-      default: "not verified",
+      default: "not verified", // { verified, not verified }
     },
   },
   { timestamps: true }
