@@ -1,39 +1,12 @@
-# Configurations 
+# About project
 
-recent update - [ 10 June ]
+The aim of this repository is to built prototype for https://educulture.co.in to sell courses online. <br/>
+The tech stack of the project:
+MongoDB, Express.js, React and Node.js, AWS S3(for storing images), Vimeo(video storage/streaming).
 
-### Current Issues
+This is not active repository. It's only for reference.
 
-- [x] uploading videos to vimeo with no privacy ( later on testing with private videos embedding is required )
-- [x] create course by inserting the vimeo data into the database.
-- [x] user can play videos on website using modal. those will be only free videos. So either from vimeo public URL or from youtube public URL. Rest of the links are disabled. 
-- [x] on cliking cards of courses, the backend will fetch the getCourse() route and course data will be shown to the user. on this component, user can see all the content ( sections, videos in each section ), details about course, course trainer details, etc. User can buy the course here. if the user has already bought this course, there will be disabled button so that user cannot buy the course again. 
-- [x] on cliking the `purchase course` button, the pop up of payment gateway is opened, user needs to enter the card information / payment information here. 
 
-- [x] on clicking the purchase button, check the user is authenticated or not. if the user is authenticated then only he can purchase the course. Hence move him to the `signin` page.
-
-- [x] after processing of successfull payment code in the backend, the later code will be of adding that course data into the user model so that user can see that course in purchase list. 
-- [x] Now, the secure coding is required here so that we can get the correct information about upto what stage the payment process is done. So there is need of one more entity in user model / order model - payment status - initiated, incomplete, , processing and complete.
-- [x] if the payment is complete, the course is added in the user model, the email will be sent to the user about which course he has purchased.
-- [ ] else the status of the payment is mailed to user.
-- [x] update: updateCourse component
-- [ ] manageCategory Component
-- [ ] verify account through email
-- [ ] delete account
-- [ ] change password
-- [ ] add topcategory and subcategory in database
-- [ ] customised messages e.g. incorrect email, incorrect password while signin
-- [ ] customised messages e.g. email already exists, password atleast 4 characters while signup.
-
-### future issues
-- [ ] uploading videos in S3
-- [ ] use security best practices CORS/ACL/signedURLs etc.
-- [ ] design the video player
-- [ ] design the page containing - video player, syllabus, all URLs and name of concepts!
-- [ ] fetch the data from database into the page having urls!
-- [ ] when use clicks on perticular link, getSignedURL and direct update src in video player to play video
-- [ ] setup complete cloud architecture containing s3, lambda, media-convert, cloudfront!
-- [ ] admin panel - manage categories (future issue)
 
 ### File Structure of React
 ```bash
