@@ -2,7 +2,7 @@
 
 The aim of this repository is to built prototype for https://educulture.co.in to sell courses online. <br/>
 The tech stack of the project:
-MongoDB, Express.js, React and Node.js, AWS S3(for storing images), Vimeo(video storage/streaming).
+MongoDB, Express.js, React and Node.js, AWS S3(for storing images), Vimeo(video storage/streaming), Razorpay(payments).
 
 This is not active repository. It's only for reference.
 
@@ -254,69 +254,10 @@ var presignedGETURL = S3.getSignedUrl("getObject", {
 
 console.log("presigned URLs ", presignedGETURL);
 ```
-## JSON course data
-
-```
-
-```xmi
-
-[
-	{
-		"sectionname": "introduction",
-		"sectiondata": [
-			{
-				"topic": "what is javascript",
-				"videourl": "www.videourl.com"
-			},
-			{
-				"topic": "let vs const",
-				"videourl": "www.videourl.com"
-			}
-		]
-	},
-	{
-		"sectionname": "advanced concepts in javascript",
-		"sectiondata": [
-			{
-				"topic": "inheritance in javascript",
-				"videourl": "www.videourl.com"
-			},
-			{
-				"topic": "memory usage and code debugging",
-				"videourl": "www.videourl.com"
-			}
-		]
-	}
-]
 
 
 
-```
 
-## payment algorithm
-
-``` 
-	- click on the PURCHASE COURSE BUTTON
-	- check if user is authenticated or not. if the user is not authenticated move him to sign in page. 
-	- else change payment status to initiated.
-	- if the fetch("/razorpay") -> razorpay has authorized the educulture to create-order hence change payment to processing.
-	- when the payment is captured - 
-		1. mail the receipt to the user
-		2. send ok msg to the webhook
-	- when the signature gets verified - 
-		1. insert the data into order.
-		2. add the course data into user purchase list.
-		3. move the user to the my enrollments.
-		4. disabled the purchase button so that user cannot buy the course again till the validity ends.
-		5. once user tries to open the course, check if the validity of the course is remaining or eneded. 
-		6. if the validity ended, user cannot open the course and has to buy the course again.  
-		
-	- when to refund the payment -
-		1. if the payment is captured by educulture, the money will not be refunded. 
-		2. if the payment is deducted from user but we have not received the payment, then we cannot refund the money. user have to contact the respective bank.
-		3. if the payment is deducted from user and we received the payment but because of poor internet connection, he did not received the receipt or haven't got payment verified, then he can contact us so that we can add the course into the his account. 
-
-```
 	
 
 
